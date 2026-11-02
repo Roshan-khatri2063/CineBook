@@ -1,0 +1,11 @@
+// CineBook Lite - Prisma schema
+// Models are added in Module 2 (Database schema).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
