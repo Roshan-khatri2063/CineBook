@@ -28,7 +28,7 @@ export default function HomePage() {
   }, [error]);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6">
+    <main className="mx-auto max-w-xl px-6 py-12">
       <div className="flex items-center gap-3">
         <MdMovie className="text-4xl text-red-800" />
         <h1 className="text-3xl font-bold tracking-tight">CineBook Lite</h1>
@@ -67,7 +67,9 @@ export default function HomePage() {
               <StatusRow
                 label="Database"
                 ok={data.database === "connected"}
-                text={data.database === "connected" ? "Connected" : "Disconnected"}
+                text={
+                  data.database === "connected" ? "Connected" : "Disconnected"
+                }
               />
               <div className="flex items-center justify-between py-3 text-sm text-stone-500">
                 <span>Uptime</span>
