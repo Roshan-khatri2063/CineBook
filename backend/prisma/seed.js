@@ -1,13 +1,10 @@
-// Development seed: admin account, screens + seats, movies and showtimes.
-// Safe to run more than once: existing rows are skipped, never duplicated.
-// Run with:  npm run db:seed
 import "dotenv/config";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// ------------------------------------------------------------ sample data
+// sample data
 
 const SCREENS = [
   { name: "Screen 1", rows: "ABCDEFGH", seatsPerRow: 10, premiumRows: "GH" },
@@ -19,54 +16,92 @@ const SCREENS = [
 const MOVIES = [
   {
     title: "The Last Lighthouse",
-    description: "A retired keeper guards a remote lighthouse through one final storm, and a secret the sea has kept for decades.",
-    genre: "Drama", language: "English", durationMinutes: 118,
-    releaseDate: "2026-09-12", ageRating: "PG-13", status: "NOW_SHOWING",
+    description:
+      "A retired keeper guards a remote lighthouse through one final storm, and a secret the sea has kept for decades.",
+    genre: "Drama",
+    language: "English",
+    durationMinutes: 118,
+    releaseDate: "2026-09-12",
+    ageRating: "PG-13",
+    status: "NOW_SHOWING",
   },
   {
     title: "Neon Skyline",
-    description: "In a city that never sleeps, a courier discovers a package that could shut down the power grid.",
-    genre: "Sci-Fi", language: "English", durationMinutes: 134,
-    releaseDate: "2026-10-03", ageRating: "PG-13", status: "NOW_SHOWING",
+    description:
+      "In a city that never sleeps, a courier discovers a package that could shut down the power grid.",
+    genre: "Sci-Fi",
+    language: "English",
+    durationMinutes: 134,
+    releaseDate: "2026-10-03",
+    ageRating: "PG-13",
+    status: "NOW_SHOWING",
   },
   {
     title: "Himalayan Echoes",
-    description: "Three friends trek to a hidden valley to find a lost village and the story behind its legend.",
-    genre: "Adventure", language: "Nepali", durationMinutes: 126,
-    releaseDate: "2026-10-10", ageRating: "PG", status: "NOW_SHOWING",
+    description:
+      "Three friends trek to a hidden valley to find a lost village and the story behind its legend.",
+    genre: "Adventure",
+    language: "Nepali",
+    durationMinutes: 126,
+    releaseDate: "2026-10-10",
+    ageRating: "PG",
+    status: "NOW_SHOWING",
   },
   {
     title: "Laugh Track",
-    description: "A struggling stand-up comedian accidentally becomes the face of a small-town festival.",
-    genre: "Comedy", language: "English", durationMinutes: 98,
-    releaseDate: "2026-10-17", ageRating: "PG", status: "NOW_SHOWING",
+    description:
+      "A struggling stand-up comedian accidentally becomes the face of a small-town festival.",
+    genre: "Comedy",
+    language: "English",
+    durationMinutes: 98,
+    releaseDate: "2026-10-17",
+    ageRating: "PG",
+    status: "NOW_SHOWING",
   },
   {
     title: "Starlit Summer",
-    description: "Two strangers share one unforgettable summer in a seaside town.",
-    genre: "Romance", language: "Hindi", durationMinutes: 105,
-    releaseDate: "2026-12-05", ageRating: "PG", status: "COMING_SOON",
+    description:
+      "Two strangers share one unforgettable summer in a seaside town.",
+    genre: "Romance",
+    language: "Hindi",
+    durationMinutes: 105,
+    releaseDate: "2026-12-05",
+    ageRating: "PG",
+    status: "COMING_SOON",
   },
   {
     title: "Shadows of Kathmandu",
-    description: "A detective follows a trail of clues through the old streets of the valley.",
-    genre: "Thriller", language: "Nepali", durationMinutes: 112,
-    releaseDate: "2026-06-20", ageRating: "R", status: "ENDED",
+    description:
+      "A detective follows a trail of clues through the old streets of the valley.",
+    genre: "Thriller",
+    language: "Nepali",
+    durationMinutes: 112,
+    releaseDate: "2026-06-20",
+    ageRating: "R",
+    status: "ENDED",
   },
 ];
 
 const STANDARD_PRICE = "400.00";
 const PREMIUM_PRICE = "600.00";
-const SLOTS = [[10, 0], [13, 30], [17, 0], [20, 30]]; // [hour, minute], 3.5h apart
+const SLOTS = [
+  [10, 0],
+  [13, 30],
+  [17, 0],
+  [20, 30],
+]; // [hour, minute], 3.5h apart
 const DAYS_AHEAD = 3; // showtimes for tomorrow + the next 2 days
 
 // ---------------------------------------------------------------- seeders
 
 async function seedAdmin() {
-  const { SEED_ADMIN_NAME, SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD } = process.env;
+  const { SEED_ADMIN_NAME, SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD } =
+    process.env;
 
   if (!SEED_ADMIN_EMAIL || !SEED_ADMIN_PASSWORD) {
-    throw new Error("Set SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD in backend/.env before seeding.");
+    throw new Error(
+      "Set SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD in backend/.env before seeding.",
+    );
   }
   if (SEED_ADMIN_PASSWORD.length < 8) {
     throw new Error("SEED_ADMIN_PASSWORD must be at least 8 characters.");
@@ -79,7 +114,12 @@ async function seedAdmin() {
   const admin = await prisma.user.upsert({
     where: { email },
     update: {},
-    create: { name: SEED_ADMIN_NAME || "CineBook Admin", email, passwordHash, role: "ADMIN" },
+    create: {
+      name: SEED_ADMIN_NAME || "CineBook Admin",
+      email,
+      passwordHash,
+      role: "ADMIN",
+    },
   });
   console.log(`Admin ready: ${admin.email}`);
 }
@@ -104,17 +144,26 @@ async function seedScreens() {
       }
     }
     // skipDuplicates relies on the unique (screenId, rowLabel, seatNumber) constraint
-    const result = await prisma.seat.createMany({ data: seats, skipDuplicates: true });
-    console.log(`${screen.name}: ${result.count} new seats (layout has ${seats.length})`);
+    const result = await prisma.seat.createMany({
+      data: seats,
+      skipDuplicates: true,
+    });
+    console.log(
+      `${screen.name}: ${result.count} new seats (layout has ${seats.length})`,
+    );
   }
 }
 
 async function seedMovies() {
   let created = 0;
   for (const movie of MOVIES) {
-    const exists = await prisma.movie.findFirst({ where: { title: movie.title } });
+    const exists = await prisma.movie.findFirst({
+      where: { title: movie.title },
+    });
     if (exists) continue;
-    await prisma.movie.create({ data: { ...movie, releaseDate: new Date(movie.releaseDate) } });
+    await prisma.movie.create({
+      data: { ...movie, releaseDate: new Date(movie.releaseDate) },
+    });
     created++;
   }
   console.log(`Movies: ${created} new`);
@@ -129,7 +178,8 @@ async function seedShowtimes() {
     where: { status: "NOW_SHOWING" },
     orderBy: { id: "asc" },
   });
-  if (movies.length === 0) throw new Error("No NOW_SHOWING movies found to schedule.");
+  if (movies.length === 0)
+    throw new Error("No NOW_SHOWING movies found to schedule.");
 
   let created = 0;
   for (let day = 1; day <= DAYS_AHEAD; day++) {
@@ -145,7 +195,9 @@ async function seedShowtimes() {
         if (exists) continue;
 
         const movie = movies[(screenIndex + slotIndex + day) % movies.length];
-        const endTime = new Date(startTime.getTime() + movie.durationMinutes * 60 * 1000);
+        const endTime = new Date(
+          startTime.getTime() + movie.durationMinutes * 60 * 1000,
+        );
 
         // One ShowSeat per physical seat, created together with the showtime.
         await prisma.showtime.create({
@@ -171,7 +223,7 @@ async function seedShowtimes() {
   console.log(`Showtimes: ${created} new`);
 }
 
-// ------------------------------------------------------------------- main
+// main
 
 async function main() {
   if (process.env.NODE_ENV === "production") {
