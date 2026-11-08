@@ -3,7 +3,6 @@ import { Prisma } from "@prisma/client";
 import { env } from "../config/env.js";
 import { AppError } from "../utils/AppError.js";
 
-
 export const errorHandler = (err, req, res, next) => {
   let statusCode = 500;
   let message = "Internal server error";
@@ -31,6 +30,15 @@ export const errorHandler = (err, req, res, next) => {
       statusCode = 409;
       message = "This record is linked to other records";
     }
+  } else if (String(err.message).includes("showtimes_no_overlap_per_screen")) {
+    statusCode = 409;
+    message = "This time overlaps another showtime on the same screen";
+  }
+  else if (
+    String(err.message).includes("booking_seats_one_active_per_show_seat")
+  ) {
+    statusCode = 409;
+    message = "One of the selected seats has just been booked";
   } else if (err.type === "entity.parse.failed") {
     statusCode = 400;
     message = "Invalid JSON in request body";
