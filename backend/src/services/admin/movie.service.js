@@ -1,10 +1,11 @@
 import prisma from "../../config/prisma.js";
+import { escapeLike } from "../../utils/search.js";
 import { AppError } from "../../utils/AppError.js";
 import { buildPagination, getSkip } from "../../utils/pagination.js";
 
 export const listMovies = async ({ page, limit, q, status, genre }) => {
   const where = {
-    ...(q && { title: { contains: q, mode: "insensitive" } }),
+    ...(q && { title: { contains: escapeLike(q), mode: "insensitive" } }),
     ...(status && { status }),
     ...(genre && { genre: { equals: genre, mode: "insensitive" } }),
   };

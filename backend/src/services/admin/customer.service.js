@@ -1,4 +1,5 @@
 import prisma from "../../config/prisma.js";
+import { escapeLike } from "../../utils/search.js";
 import { AppError } from "../../utils/AppError.js";
 import { buildPagination, getSkip } from "../../utils/pagination.js";
 
@@ -19,9 +20,9 @@ export const listCustomers = async ({ page, limit, q, isActive }) => {
     ...(isActive !== undefined && { isActive }),
     ...(q && {
       OR: [
-        { name: { contains: q, mode: "insensitive" } },
-        { email: { contains: q, mode: "insensitive" } },
-        { phone: { contains: q } },
+        { name: { contains: escapeLike(q), mode: "insensitive" } },
+        { email: { contains: escapeLike(q), mode: "insensitive" } },
+        { phone: { contains: escapeLike(q) } },
       ],
     }),
   };

@@ -1,4 +1,5 @@
 import prisma from "../../config/prisma.js";
+import { escapeLike } from "../../utils/search.js";
 import { AppError } from "../../utils/AppError.js";
 import { buildPagination, getSkip } from "../../utils/pagination.js";
 
@@ -64,9 +65,9 @@ export const listBookings = async ({
     }),
     ...(q && {
       OR: [
-        { bookingReference: { contains: q, mode: "insensitive" } },
-        { user: { name: { contains: q, mode: "insensitive" } } },
-        { user: { email: { contains: q, mode: "insensitive" } } },
+        { bookingReference: { contains: escapeLike(q), mode: "insensitive" } },
+        { user: { name: { contains: escapeLike(q), mode: "insensitive" } } },
+        { user: { email: { contains: escapeLike(q), mode: "insensitive" } } },
       ],
     }),
   };
