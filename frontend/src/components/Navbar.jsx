@@ -29,6 +29,9 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center gap-1">
+          <NavLink to="/" end className={linkClass}>
+            Movies
+          </NavLink>
           {loading && <span className="px-3 text-sm text-stone-400">…</span>}
 
           {!loading && !user && (

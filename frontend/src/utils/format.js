@@ -41,3 +41,31 @@ export const titleCase = (value) =>
 
 export const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, { dateStyle: "medium" });
+
+// "2026-11-12" style key, used to group showtimes by calendar day (local time)
+export const dayKey = (iso) => {
+  const d = new Date(iso);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+
+export const formatDayHeading = (iso) =>
+  new Date(iso).toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
+
+// Card form helpers: "4242424242424242" -> "4242 4242 4242 4242", "1230" -> "12/30"
+export const formatCardNumber = (value) =>
+  value
+    .replace(/\D/g, "")
+    .slice(0, 19)
+    .replace(/(.{4})/g, "$1 ")
+    .trim();
+
+export const formatExpiry = (value) => {
+  const digits = value.replace(/\D/g, "").slice(0, 4);
+  return digits.length > 2
+    ? `${digits.slice(0, 2)}/${digits.slice(2)}`
+    : digits;
+};
