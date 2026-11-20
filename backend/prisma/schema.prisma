@@ -54,6 +54,7 @@ enum PaymentStatus {
 enum TicketStatus {
   VALID
   CANCELLED
+  USED // scanned at the cinema entrance
 }
 
 // ---------------------------------------------------------------- Models
@@ -214,12 +215,14 @@ model BookingSeat {
   @@map("booking_seats")
 }
 
-// Digital ticket, one per booked seat. The QR code is generated from ticketCode.
+// Digital ticket, one per booked seat. The QR code carries a signed token made from
+// ticketCode (see src/utils/ticketToken.js), never any customer information.
 model Ticket {
   id            Int          @id @default(autoincrement())
   ticketCode    String       @unique
   bookingSeatId Int          @unique
   status        TicketStatus @default(VALID)
+  usedAt        DateTime? // set when the ticket is checked in (status USED)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 

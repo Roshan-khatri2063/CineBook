@@ -6,6 +6,7 @@ import adminRoutes from "./admin/index.js";
 import movieRoutes from "./movie.routes.js";
 import showtimeRoutes from "./showtime.routes.js";
 import bookingRoutes from "./booking.routes.js";
+import ticketRoutes from "./ticket.routes.js";
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use("/admin", adminRoutes);
 router.use("/movies", movieRoutes);
 router.use("/showtimes", showtimeRoutes);
 router.use("/bookings", bookingRoutes);
+router.use("/tickets", ticketRoutes);
 // Later modules register their routes here.
 
 export default router;
