@@ -54,7 +54,7 @@ export default function BookingConfirmationPage() {
           Booking confirmed!
         </h1>
         <p className="mt-1 text-stone-700">
-          Your seats are reserved. Keep your booking reference handy.
+          Your seats are reserved and your tickets are ready.
         </p>
         <p className="mt-4 text-xs uppercase tracking-wide text-stone-500">
           Booking reference
@@ -151,10 +151,16 @@ export default function BookingConfirmationPage() {
         </dl>
       </section>
 
-      <div className="mt-6 text-center">
+      <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <Link
+          to={`/bookings/${booking.id}/tickets`}
+          className="inline-block rounded-md bg-red-800 px-5 py-2.5 font-medium text-white hover:bg-red-900"
+        >
+          View my tickets
+        </Link>
         <Link
           to="/"
-          className="inline-block rounded-md bg-red-800 px-5 py-2.5 font-medium text-white hover:bg-red-900"
+          className="inline-block rounded-md border border-stone-300 bg-white px-5 py-2.5 font-medium hover:bg-stone-100"
         >
           Browse more movies
         </Link>

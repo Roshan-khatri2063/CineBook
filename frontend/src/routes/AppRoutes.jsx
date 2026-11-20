@@ -7,6 +7,9 @@ import HomePage from "../pages/HomePage.jsx";
 import MovieDetailPage from "../pages/MovieDetailPage.jsx";
 import BookingPage from "../pages/BookingPage.jsx";
 import BookingConfirmationPage from "../pages/BookingConfirmationPage.jsx";
+import MyTicketsPage from "../pages/MyTicketsPage.jsx";
+import TicketPage from "../pages/TicketPage.jsx";
+import BookingTicketsPage from "../pages/BookingTicketsPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import RegisterPage from "../pages/RegisterPage.jsx";
 import AccountPage from "../pages/AccountPage.jsx";
@@ -18,8 +21,9 @@ import SeatLayoutPage from "../pages/admin/SeatLayoutPage.jsx";
 import ShowtimesPage from "../pages/admin/ShowtimesPage.jsx";
 import BookingsPage from "../pages/admin/BookingsPage.jsx";
 import CustomersPage from "../pages/admin/CustomersPage.jsx";
+import TicketVerificationPage from "../pages/admin/TicketVerificationPage.jsx";
 
-// Later modules add their routes here (booking history, tickets...).
+// Later modules add their routes here (booking history, cancellation...).
 export default function AppRoutes() {
   return (
     <Routes>
@@ -40,6 +44,30 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute roles={["CUSTOMER"]}>
               <BookingConfirmationPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings/:id/tickets"
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <BookingTicketsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tickets"
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <MyTicketsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tickets/:id"
+          element={
+            <ProtectedRoute roles={["CUSTOMER"]}>
+              <TicketPage />
             </ProtectedRoute>
           }
         />
@@ -85,6 +113,7 @@ export default function AppRoutes() {
         <Route path="showtimes" element={<ShowtimesPage />} />
         <Route path="bookings" element={<BookingsPage />} />
         <Route path="customers" element={<CustomersPage />} />
+        <Route path="tickets" element={<TicketVerificationPage />} />
       </Route>
 
       <Route element={<Layout />}>

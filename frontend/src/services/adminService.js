@@ -47,6 +47,12 @@ export const listBookings = (params) =>
 export const getBooking = (id) =>
   api.get(`/admin/bookings/${id}`).then((r) => data(r).booking);
 
+// Tickets at the entrance. "verify" only looks; "check-in" also marks the ticket used.
+export const verifyTicket = (token) =>
+  api.post("/admin/tickets/verify", { token }).then(data);
+export const checkInTicket = (token) =>
+  api.post("/admin/tickets/check-in", { token }).then(data);
+
 // Customers
 export const listCustomers = (params) =>
   api.get("/admin/customers", { params }).then(data);
