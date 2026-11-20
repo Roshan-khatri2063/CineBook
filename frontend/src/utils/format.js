@@ -42,6 +42,14 @@ export const titleCase = (value) =>
 export const formatDate = (iso) =>
   new Date(iso).toLocaleDateString(undefined, { dateStyle: "medium" });
 
+export const formatLongDate = (iso) =>
+  new Date(iso).toLocaleDateString(undefined, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
 // "2026-11-12" style key, used to group showtimes by calendar day (local time)
 export const dayKey = (iso) => {
   const d = new Date(iso);

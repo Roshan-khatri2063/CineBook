@@ -10,13 +10,17 @@ const COLORS = {
   PAID: "bg-emerald-100 text-emerald-800",
   REFUNDED: "bg-amber-100 text-amber-800",
   VALID: "bg-emerald-100 text-emerald-800",
+  USED: "bg-stone-200 text-stone-700",
+  EXPIRED: "bg-amber-100 text-amber-800",
   ACTIVE: "bg-emerald-100 text-emerald-800",
   INACTIVE: "bg-stone-200 text-stone-700",
 };
 
 export default function StatusBadge({ status }) {
   return (
-    <span className={`inline-block whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ${COLORS[status] ?? "bg-stone-100 text-stone-700"}`}>
+    <span
+      className={`inline-block whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium ${COLORS[status] ?? "bg-stone-100 text-stone-700"}`}
+    >
       {titleCase(status)}
     </span>
   );

@@ -18,7 +18,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b border-stone-200 bg-white">
+    <header className="border-b border-stone-200 bg-white print:hidden">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
         <Link
           to="/"
@@ -50,6 +50,11 @@ export default function Navbar() {
 
           {!loading && user && (
             <>
+              {user.role === "CUSTOMER" && (
+                <NavLink to="/tickets" className={linkClass}>
+                  My tickets
+                </NavLink>
+              )}
               {user.role === "ADMIN" && (
                 <NavLink to="/admin" className={linkClass}>
                   Admin
